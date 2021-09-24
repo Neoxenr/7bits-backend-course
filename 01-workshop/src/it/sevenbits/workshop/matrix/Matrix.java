@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Matrix {
     private final int CELL_MAX_VALUE = 100;
+
     private Cell[][] matrix;
 
     private Matrix() {
@@ -41,7 +42,7 @@ public class Matrix {
             for (int y = 0; y < matrix[x].length; y++) {
                 sb.append(matrix[x][y].getValue()).append(" ");
             }
-            sb.append("\n");
+            sb.append('\n');
         }
         return sb.toString();
     }

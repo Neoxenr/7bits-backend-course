@@ -1,11 +1,12 @@
 package it.sevenbits.workshop.matrix;
 
-public class Cell {
+class Cell {
     private int x;
     private int y;
     private int value;
 
-    private Cell() {};
+    private Cell() {
+    }
 
     public Cell(int x, int y, int value) {
         this.x = x;
