@@ -1,0 +1,1024 @@
+stages:
+  - repository-correctness
+  - pom-correctness
+  - checkstyle
+  - tests
+  - build
+  - testing-formatting
+
+# Проверить наличие gitignore file
+check-gitignore-01-base-practice 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ .gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-01-base-practice 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/.gitignore
+
+# Проверить, что в репозитории есть нужные файлы и папки
+# HelloWorld.java
+# **/src/main/it/sevenbits/Main
+check-source-files-01-base-practice:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 01-base-practice
+    - python3 /ci/fileChecker.py ./ ./HelloWorld.java ./src/main/it/sevenbits/Main.java
+
+build-01-base-practice 1/2:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 01-base-practice
+    - javac HelloWorld.java
+    - java HelloWorld
+
+build-01-base-practice 2/2:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 01-base-practice
+    - find -name "*.java" > sources.txt
+    - javac @sources.txt
+    - java -cp ./src main.it.sevenbits.Main
+
+
+# Проверить наличие gitignore file
+check-gitignore-01-homework 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ .gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-01-homework 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/homeworks/01-homework/.gitignore
+
+# Проверить pom file
+check-pom-01-homework 1/1:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/pomChecker-01-homework.py ./ /ci/resources/homeworks/01-homework
+
+# Проверить, что в репозитории есть нужные файлы и папки
+# Main.java, Formatter.java
+check-source-files-01-homework:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./src/main/java/it/sevenbits/formatter/Main.java ./src/main/java/it/sevenbits/formatter/Formatter/Formatter.java
+
+build-01-homework 1/1:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "01-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/formatter-1.0-SNAPSHOT.jar > ./jar_result.txt
+    - python3 /ci/outputChecker01-homework-enhanced.py ./jar_result.txt /ci/resources/homeworks/01-homework/expected_output.txt
+
+# Проверить наличие gitignore file
+check-gitignore-02-base-practice 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd two-base-practice
+    - python3 /ci/fileChecker.py ./ .gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-02-base-practice 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd two-base-practice
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/.gitignore
+
+check-checkstyle-02-base-practice:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd two-base-practice
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+
+# Проверить, что в репозитории есть нужные файлы и папки
+# HelloWorld.java
+# **/src/main/it/sevenbits/Main
+check-source-files-02-base-practice:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd two-base-practice
+    - python3 /ci/fileChecker.py ./ ./src/main/java/com/tenexperts/summatra/array/Main.java
+    - python3 /ci/fileChecker.py ./ ./src/main/java/com/tenexperts/summatra/array/IArraySummater.java
+    - python3 /ci/fileChecker.py ./ ./src/main/java/com/tenexperts/summatra/array/PairSummater.java
+    - python3 /ci/fileChecker.py ./ ./src/main/java/com/tenexperts/summatra/array/SimpleSummater.java
+    - python3 /ci/fileChecker.py ./ ./src/main/java/com/tenexperts/summatra/array/ArraySummaterException.java
+    - python3 /ci/fileChecker.py ./ ./src/test/java/com/tenexperts/summatra/array/PairSummaterTest.java
+    - python3 /ci/fileChecker.py ./ ./src/test/java/com/tenexperts/summatra/array/SimpleSummaterTest.java
+
+check-code-style-02-base-practice:
+  stage: checkstyle
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd two-base-practice
+    - mvn checkstyle:checkstyle | grep -v -E 'Downloading from|Downloaded from'
+    - python3 /ci/CodeQualityFormat.py ./target/checkstyle-result.xml 3
+  artifacts:
+    name: checkstyle-report
+    paths:
+      - two-base-practice/target/site/checkstyle.html
+    when: always
+    expire_in: 3 days
+
+
+build-02-base-practice:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd two-base-practice
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/summatra-1.0-SNAPSHOT.jar
+
+# Проверить наличие gitignore file
+check-gitignore-02-homework 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ .gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-02-homework 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/homeworks/01-homework/.gitignore
+
+check-checkstyle-02-homework:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+
+check-code-style-02-homework:
+  stage: checkstyle
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn checkstyle:checkstyle | grep -v -E 'Downloading from|Downloaded from'
+    - python3 /ci/CodeQualityFormat.py ./target/checkstyle-result.xml 3
+  artifacts:
+    name: checkstyle-report
+    paths:
+      - homework/target/site/checkstyle.html
+    when: always
+    expire_in: 3 days
+
+# Проверить pom file
+check-pom-02-homework:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/pomChecker-01-homework.py ./ /ci/resources/homeworks/01-homework
+
+build-02-homework:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "02-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/formatter-1.0-SNAPSHOT.jar > ./jar_result.txt
+    - python3 /ci/outputChecker01-homework-enhanced.py ./jar_result.txt /ci/resources/homeworks/02-homework/expected_output.txt
+
+
+# BASE PRACTICE 3
+
+# Проверить наличие gitignore file
+check-gitignore-03-base-practice 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ ./.gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-03-base-practice 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/.gitignore
+
+check-checkstyle-03-base-practice:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-03-base-practice 1/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - python3 /ci/fileChecker.py ./ ./README.md
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-03-base-practice 2/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-03-base-practice 3/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - python3 /ci/fileChecker.py ./ ./pom.xml
+
+# Проверить pom.xml
+check-pom-correctness-03-base-practice 1/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-03-base-practice 3/3']
+  script:
+    - cd 03-base-practice
+    - python3 /ci/pomChecker.py ./   
+
+# Проверить зависимости в pom.xml
+check-pom-correctness-03-base-practice 2/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-03-base-practice 3/3']
+  script:
+    - cd 03-base-practice
+    - python3 /ci/pomDependenciesChecker.py ./ /ci/resources/base-practices/03-base-practice/dependencies.json
+
+# Проверить плагины в pom.xml
+check-pom-correctness-03-base-practice 3/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-03-base-practice 3/3']
+  script:
+    - cd 03-base-practice  
+    - python3 /ci/pomPluginsChecker.py ./ /ci/resources/base-practices/03-base-practice/plugins.json
+
+
+check-code-style-03-base-practice:
+  stage: checkstyle
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - mvn checkstyle:checkstyle | grep -v -E 'Downloading from|Downloaded from'
+    - python3 /ci/CodeQualityFormat.py ./target/checkstyle-result.xml 3
+  artifacts:
+    name: checkstyle-report
+    paths:
+      - 03-base-practice/target/site/checkstyle.html
+    when: always
+    expire_in: 3 days
+
+unit-tests-03-base-practice:
+  stage: tests
+  image: maven:3.6.3-jdk-11  
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'  
+  script:
+    - cd 03-base-practice  
+    - mvn $MAVEN_CLI_OPTS verify | grep -v -E 'Downloading from|Downloaded from'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - ./target/surefire-reports/TEST-*.xml
+        - ./target/failsafe-reports/TEST-*.xml
+
+build-03-base-practice:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 03-base-practice
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/*.jar
+    
+    
+
+# HOMEWORK 3
+
+# Проверить наличие gitignore file
+check-gitignore-03-homework 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ ./.gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-03-homework 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/.gitignore
+
+check-checkstyle-03-homework:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-03-homework 1/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./README.md
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-03-homework 2/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-03-homework 3/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./pom.xml
+
+# Проверить pom.xml
+check-pom-correctness-03-homework 1/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-03-homework 3/3']
+  script:
+    - cd homework
+    - python3 /ci/pomChecker.py ./   
+
+# Проверить зависимости в pom.xml
+check-pom-correctness-03-homework 2/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-03-homework 3/3']
+  script:
+    - cd homework
+    - python3 /ci/pomDependenciesChecker.py ./ /ci/resources/homeworks/03-homework/dependencies.json
+
+# Проверить плагины в pom.xml
+check-pom-correctness-03-homework 3/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-03-homework 3/3']
+  script:
+    - cd homework  
+    - python3 /ci/pomPluginsChecker.py ./ /ci/resources/homeworks/03-homework/plugins.json
+
+
+check-code-style-03-homework:
+  stage: checkstyle
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn checkstyle:checkstyle | grep -v -E 'Downloading from|Downloaded from'
+    - python3 /ci/CodeQualityFormat.py ./target/checkstyle-result.xml 3
+  artifacts:
+    name: checkstyle-report
+    paths:
+      - 03-homework/target/site/checkstyle.html
+    when: always
+    expire_in: 3 days
+
+unit-tests-03-homework:
+  stage: tests
+  image: maven:3.6.3-jdk-11  
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'  
+  script:
+    - cd homework  
+    - mvn $MAVEN_CLI_OPTS verify | grep -v -E 'Downloading from|Downloaded from'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - ./target/surefire-reports/TEST-*.xml
+        - ./target/failsafe-reports/TEST-*.xml
+
+build-03-homework:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+
+testing-formatting-1-homework-03 1/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/*.jar /ci/resources/homeworks/03-homework/sourceCodes/source_1.txt ./formattedCode.txt
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/03-homework/expectedCodes/expected_test_1.txt
+    
+testing-formatting-2-homework-03 2/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/*.jar /ci/resources/homeworks/03-homework/sourceCodes/source_2.txt ./formattedCode.txt
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/03-homework/expectedCodes/expected_test_2.txt
+
+testing-formatting-3-homework-03 3/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/*.jar /ci/resources/homeworks/03-homework/sourceCodes/source_3.txt ./formattedCode.txt
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/03-homework/expectedCodes/expected_test_3.txt
+
+testing-formatting-4-homework-03 4/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "03-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/*.jar /ci/resources/homeworks/03-homework/sourceCodes/source_4.txt ./formattedCode.txt
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/03-homework/expectedCodes/expected_test_4.txt
+
+# BASE PRACTICE 4
+
+# Проверить наличие gitignore file
+check-gitignore-04-base-practice 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ ./.gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-04-base-practice 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/.gitignore
+
+check-checkstyle-04-base-practice:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-04-base-practice 1/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - python3 /ci/fileChecker.py ./ ./README.md
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-04-base-practice 2/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-04-base-practice 3/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - python3 /ci/fileChecker.py ./ ./pom.xml
+
+# Проверить pom.xml
+check-pom-correctness-04-base-practice 1/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-04-base-practice 3/3']
+  script:
+    - cd 04-base-practice
+    - python3 /ci/pomChecker.py ./   
+
+# Проверить зависимости в pom.xml
+check-pom-correctness-04-base-practice 2/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-04-base-practice 3/3']
+  script:
+    - cd 04-base-practice
+    - python3 /ci/pomDependenciesChecker.py ./ /ci/resources/base-practices/04-base-practice/dependencies.json
+
+# Проверить плагины в pom.xml
+check-pom-correctness-04-base-practice 3/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-04-base-practice 3/3']
+  script:
+    - cd 04-base-practice  
+    - python3 /ci/pomPluginsChecker.py ./ /ci/resources/base-practices/04-base-practice/plugins.json
+
+check-code-style-04-base-practice:
+  stage: checkstyle
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - mvn checkstyle:checkstyle | grep -v -E 'Downloading from|Downloaded from'
+    - python3 /ci/CodeQualityFormat.py ./target/checkstyle-result.xml 3
+  artifacts:
+    name: checkstyle-report
+    paths:
+      - 04-base-practice/target/site/checkstyle.html
+    when: always
+    expire_in: 3 days
+
+unit-tests-04-base-practice:
+  stage: tests
+  image: maven:3.6.3-jdk-11  
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'  
+  script:
+    - cd 04-base-practice  
+    - mvn $MAVEN_CLI_OPTS verify | grep -v -E 'Downloading from|Downloaded from'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - ./target/surefire-reports/TEST-*.xml
+        - ./target/failsafe-reports/TEST-*.xml
+
+build-04-base-practice:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-base-practice"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd 04-base-practice
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - java -jar ./target/*.jar
+
+
+# HOMEWORK 4
+
+# Проверить наличие gitignore file
+check-gitignore-04-homework 1/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - python3 /ci/fileChecker.py ./ ./.gitignore
+
+# Проверить, что в репозитории нет ничего лишнего
+check-gitignore-04-homework 2/2:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/gitignoreChecker.py ./ /ci/resources/.gitignore
+
+check-checkstyle-04-homework:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-04-homework 1/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./README.md
+    
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-04-homework 2/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./7bits-checkstyle.xml
+
+# Проверить, что в репозитории есть нужные файлы и папки
+check-source-files-04-homework 3/3:
+  stage: repository-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - python3 /ci/fileChecker.py ./ ./pom.xml
+
+# Проверить pom.xml
+check-pom-correctness-04-homework 1/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-04-homework 3/3']
+  script:
+    - cd homework
+    - python3 /ci/pomChecker.py ./   
+
+# Проверить зависимости в pom.xml
+check-pom-correctness-04-homework 2/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-04-homework 3/3']
+  script:
+    - cd homework
+    - python3 /ci/pomDependenciesChecker.py ./ /ci/resources/homeworks/04-homework/dependencies.json
+
+# Проверить плагины в pom.xml
+check-pom-correctness-04-homework 3/3:
+  stage: pom-correctness
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  needs: ['check-source-files-04-homework 3/3']
+  script:
+    - cd homework  
+    - python3 /ci/pomPluginsChecker.py ./ /ci/resources/homeworks/04-homework/plugins.json
+
+
+check-code-style-04-homework:
+  stage: checkstyle
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn checkstyle:checkstyle | grep -v -E 'Downloading from|Downloaded from'
+    - python3 /ci/CodeQualityFormat.py ./target/checkstyle-result.xml 3
+  artifacts:
+    name: checkstyle-report
+    paths:
+      - 04-homework/target/site/checkstyle.html
+    when: always
+    expire_in: 3 days
+
+unit-tests-04-homework:
+  stage: tests
+  image: maven:3.6.3-jdk-11  
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'  
+  script:
+    - cd homework  
+    - mvn $MAVEN_CLI_OPTS verify | grep -v -E 'Downloading from|Downloaded from'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - ./target/surefire-reports/TEST-*.xml
+        - ./target/failsafe-reports/TEST-*.xml
+
+build-04-homework:
+  stage: build
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+
+testing-formatting-1-homework-04 1/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - if [ -e ./target/*jar-with-dependencies.jar ]; then java -jar ./target/*jar-with-dependencies.jar /ci/resources/homeworks/04-homework/sourceCodes/source_1.txt ./formattedCode.txt ; else java -jar ./target/*.jar /ci/resources/homeworks/04-homework/sourceCodes/source_1.txt ./formattedCode.txt ; fi
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/04-homework/expectedCodes/expected_test_1.txt
+    
+testing-formatting-2-homework-04 2/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - if [ -e ./target/*jar-with-dependencies.jar ]; then java -jar ./target/*jar-with-dependencies.jar /ci/resources/homeworks/04-homework/sourceCodes/source_2.txt ./formattedCode.txt ; else java -jar ./target/*.jar /ci/resources/homeworks/04-homework/sourceCodes/source_2.txt ./formattedCode.txt ; fi
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/04-homework/expectedCodes/expected_test_2.txt
+
+testing-formatting-3-homework-04 3/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - if [ -e ./target/*jar-with-dependencies.jar ]; then java -jar ./target/*jar-with-dependencies.jar /ci/resources/homeworks/04-homework/sourceCodes/source_3.txt ./formattedCode.txt ; else java -jar ./target/*.jar /ci/resources/homeworks/04-homework/sourceCodes/source_3.txt ./formattedCode.txt ; fi
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/04-homework/expectedCodes/expected_test_3.txt
+
+testing-formatting-4-homework-04 4/4:
+  stage: testing-formatting
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "04-homework"'
+  image:
+    name: registry.7bits.it/omstu-courses/2020-2021/development/ci/backend/ci-configuration/backend-ci-polytech
+    entrypoint: [""]
+  script:
+    - cd homework
+    - mvn clean package | grep -v -E 'Downloading from|Downloaded from'
+    - if [ -e ./target/*jar-with-dependencies.jar ]; then java -jar ./target/*jar-with-dependencies.jar /ci/resources/homeworks/04-homework/sourceCodes/source_4.txt ./formattedCode.txt ; else java -jar ./target/*.jar /ci/resources/homeworks/04-homework/sourceCodes/source_4.txt ./formattedCode.txt ; fi
+    - python3 /ci/outputChecker.py ./formattedCode.txt /ci/resources/homeworks/04-homework/expectedCodes/expected_test_4.txt
