@@ -1,31 +1,66 @@
 package it.sevenbits.formatter.Formatter;
 
+import it.sevenbits.formatter.Formatter.exceptions.ReadException;
+import it.sevenbits.formatter.Formatter.interfaces.IReader;
+import it.sevenbits.formatter.Formatter.interfaces.IWriter;
+
+/**
+ * This class is formatting strings according to java conventions
+ */
 public class Formatter {
-    public String format(String string) {
-        StringBuilder newFormatString = new StringBuilder();
+    /**
+     *
+     * @param reader - thread for reading
+     * @param writer - thread for writing
+     * @throws ReadException - if nothing to read
+     */
+    public void format(final IReader reader, final IWriter writer) throws ReadException {
+        boolean newSpace = false, newLine = false;
 
-        StringBuilder indent = new StringBuilder();
+        final int tabulationSize = 4;
 
-        for (String word : string.split(" ")) {
-            for (int j = 0; j < word.length(); j++) {
-                if (word.charAt(j) == '{') {
-                    indent.append("    ");
-                    newFormatString.append("{\n").append(indent);
-                } else if (word.charAt(j) == '}') {
-                    indent.replace(indent.length() - 4, indent.length(), "");
-                    newFormatString.replace(newFormatString.length() - 4, newFormatString.length(), "");
-                    newFormatString.append("}\n").append(indent);
-                } else if (word.charAt(j) == ';') {
-                    newFormatString.append(word.charAt(j)).append('\n').append(indent);
-                } else {
-                    newFormatString.append(word.charAt(j));
-                    if (j == word.length() - 1) {
-                        newFormatString.append(" ");
+        int indent = 0;
+
+        while (reader.hasNext()) {
+            char symbol = reader.read();
+            if (symbol != ' ' && symbol != '\n') {
+                if (newLine) {
+                    if (symbol == '}') {
+                        indent -= tabulationSize;
                     }
+                    for (int i = 0; i < indent; i++) {
+                        writer.write(' ');
+                    }
+                    newLine = false;
+                }
+                if (symbol == '}') {
+                    writer.write(symbol).write('\n');
+                    newLine = true;
+                }
+                if (symbol == '{') {
+                    if (newSpace) {
+                        writer.write(' ');
+                    }
+                    writer.write(symbol).write('\n');
+                    newSpace = false;
+                    newLine = true;
+                    indent += tabulationSize;
+                }
+                if (symbol == ';') {
+                    writer.write(symbol).write('\n');
+                    newSpace = false;
+                    newLine = true;
+                }
+                if (symbol != '{' && symbol != '}' && symbol != ';') {
+                    writer.write(symbol);
+                    newSpace = true;
+                }
+            } else {
+                if (newSpace) {
+                    writer.write(symbol);
+                    newSpace = false;
                 }
             }
         }
-
-        return newFormatString.toString();
     }
 }
