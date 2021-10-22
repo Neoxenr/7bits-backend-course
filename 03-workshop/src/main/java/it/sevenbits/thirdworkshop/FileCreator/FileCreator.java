@@ -39,7 +39,7 @@ public class FileCreator {
             stringBuilder.append("File name: ").append(path.getFileName().toString()).append(" | File type: ").
                     append(path.toFile().isDirectory() ? "directory" : "file").append(" | ").append("Access truth: ").
                     append((path.toFile().canRead() ? 'r' : '-')).append((path.toFile().canWrite() ? 'w' : '-')).
-                    append((path.toFile().canExecute() ? 'x' : '-')).append(" | Absolute path: ").append(path).append('\n');
+                    append((path.toFile().canExecute() ? 'x' : '-')).append(" | Absolute path: ").append(path.toFile().getAbsolutePath()).append('\n');
 
             writer.write(stringBuilder.toString());
 
