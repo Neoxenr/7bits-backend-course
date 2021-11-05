@@ -1,15 +1,32 @@
 package it.sevenbits.formatter;
 
+import it.sevenbits.formatter.Formatter.Reader.FileReader;
+import it.sevenbits.formatter.Formatter.Writer.FileWriter;
+import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
 import it.sevenbits.formatter.Formatter.Formatter;
+import it.sevenbits.formatter.Formatter.LexerFactory.ILexerFactory;
+import it.sevenbits.formatter.Formatter.LexerFactory.LexerFactory;
 
-public class Main {
-    public static void main(String[] strings) {
-        Formatter formatter = new Formatter();
+/**
+ * Main application entry point
+ */
+final class Main {
+    /**
+     * Main function for app
+     * @param args - console arguments
+     * @throws ReadException - reading exception
+     */
+    public static void main(final String[] args) throws Exception {
+        if (args.length > 0) {
+            try (FileReader reader = new FileReader(args[0])) {
+                try (FileWriter writer = new FileWriter(args[1])) {
+                    ILexerFactory lexerFactory = new LexerFactory();
+                    Formatter formatter = new Formatter(lexerFactory);
 
-        System.out.println(formatter.format("{{{{}}}}"));
-        System.out.println(formatter.format("aaa { bbbb; ccc;}"));
-        System.out.println(formatter.format("aaa { bbbb; fff { trtryy; hhhh; } else { bsufg; } ccc;}"));
-        System.out.println(formatter.format("public class HelloWorld { public static void main(String[] args) " +
-                "{ System.out.println(\"Hello, World\");}}"));
+                    formatter.format(reader, writer);
+                }
+            }
+        }
     }
+    private Main() {}
 }
