@@ -12,7 +12,6 @@ public class FileReader {
     private int stringCounter = 0;
 
     /**
-     *
      * @param file - input thread
      * @throws IOException - reading exception
      */
@@ -22,19 +21,17 @@ public class FileReader {
     }
 
     /**
-     *
      * @return String - file's name and string's number and string
      * @throws IOException - if nothing read
      */
     public String readLine() throws IOException {
         if (!hasMoreLines()) {
-            throw new IOException("Error or reading line");
+            throw new IOException("Reading's file error");
         }
         return fileName + " line " + stringCounter + ": " + strings.get(stringCounter++);
     }
 
     /**
-     *
      * @return boolean - true, if file hasn't ended yet
      */
     public boolean hasMoreLines() {

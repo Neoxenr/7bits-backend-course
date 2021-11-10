@@ -1,7 +1,8 @@
-package it.sevenbits.thirdpractice.threads.FileReaderTest;
+package it.sevenbits.thirdpractice.threads.FileReader;
 
-import it.sevenbits.thirdpractice.threads.FileReader.FileReader;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +14,9 @@ public class FileReaderTest {
     public void setUp() throws IOException {
         this.fileReader = new FileReader(new File("Homework3.txt"));
     }
+
     @Test
     public void fileReaderReadLineTest() throws IOException {
-        Assert.assertEquals("Wrong answer", "Homework3.txt line 0: ./" ,  fileReader.readLine());
+        Assert.assertEquals("Wrong answer", "Homework3.txt line 0: А ларчик просто открывался", fileReader.readLine());
     }
 }
