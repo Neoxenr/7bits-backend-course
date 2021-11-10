@@ -18,16 +18,15 @@ public class ExampleTest {
         this.example = new Example();
     }
 
-    @Test(expected = IOException.class)
-    public void readLineExceptionTest() throws IOException {
+    @Test
+    public void getLongestLineCharsCountEmptyTest() throws IOException {
         FileReader mockFileReader = mock(FileReader.class);
-        when(mockFileReader.readLine()).thenReturn("HomeworkTest.txt line 0: Hi everyone").thenThrow(IOException.class);
-        mockFileReader.readLine();
-        mockFileReader.readLine();
+        when(mockFileReader.hasMoreLines()).thenReturn(false);
+        assertEquals("WrongAnswer", 0, example.getLongestLineCharsCount(mockFileReader));
     }
 
     @Test
-    public void getLongestLineCharsCountSecondTest() throws IOException {
+    public void getLongestLineCharsCountStandardTest() throws IOException {
         FileReader mockFileReader = mock(FileReader.class);
         when(mockFileReader.readLine()).thenReturn("Homework3.txt line 0: first line")
                 .thenReturn("HomeworkTest.txt line 1: second line")
