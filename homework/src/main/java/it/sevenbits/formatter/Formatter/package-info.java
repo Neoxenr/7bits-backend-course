@@ -1,5 +1,4 @@
 /**
-<<<<<<< HEAD
  * This package is basic for this project.
  * Formatter intends for formatting Java source code, which can be specified in any character stream
  *
@@ -9,8 +8,5 @@
  * Reader package contains input symbols streams, which are received at Lexer input
  * Writer package contains output symbols streams
  * Token package intends for stores lexemes and token's names
-=======
- * This package consist of 3 packages and Formatter class
->>>>>>> c6ef4250c9490cdda5a40a6698a58ce51bfbb566
  */
 package it.sevenbits.formatter.Formatter;

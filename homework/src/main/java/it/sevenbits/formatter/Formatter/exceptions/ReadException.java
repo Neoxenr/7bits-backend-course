@@ -1,4 +1,4 @@
-package it.sevenbits.formatter.Formatter.exceptions;
+package it.sevenbits.formatter.Formatter.Exceptions;
 
 /**
  * Exception for IReader
