@@ -1,11 +1,18 @@
 package it.sevenbits.formatter.Formatter;
 
+import it.sevenbits.formatter.Formatter.Command.ICommand;
+import it.sevenbits.formatter.Formatter.CommandFactory.ICommandFactory;
+import it.sevenbits.formatter.Formatter.CommandRepository.FormatterCommandRepository;
+import it.sevenbits.formatter.Formatter.CommandRepository.ICommandRepository;
 import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
 import it.sevenbits.formatter.Formatter.Lexer.ILexer;
 import it.sevenbits.formatter.Formatter.LexerFactory.ILexerFactory;
 import it.sevenbits.formatter.Formatter.Reader.IReader;
-import it.sevenbits.formatter.Formatter.Writer.IWriter;
+import it.sevenbits.formatter.Formatter.StateMap.State;
+import it.sevenbits.formatter.Formatter.StateTransition.FormatterStateTransition;
+import it.sevenbits.formatter.Formatter.StateTransition.IStateTransition;
 import it.sevenbits.formatter.Formatter.Token.IToken;
+import it.sevenbits.formatter.Formatter.Writer.IWriter;
 
 import java.io.IOException;
 
@@ -13,93 +20,43 @@ import java.io.IOException;
  * This class is formatting strings according to java conventions
  */
 public class Formatter implements IFormatter {
+    private final IStateTransition<IToken> formatterLexerTransition;
+    private final ICommandRepository<IToken, IWriter> commandRepository;
     private final ILexerFactory lexerFactory;
 
     /**
-     *
+     * Initializing all fields
      * @param lexerFactory - factory for ILexer products
      */
     public Formatter(final ILexerFactory lexerFactory) {
+        this.formatterLexerTransition = new FormatterStateTransition();
+        this.commandRepository = new FormatterCommandRepository();
         this.lexerFactory = lexerFactory;
     }
 
     /**
-     *
+     * This method is formatting input stream
      * @param reader - input stream
      * @param writer - output stream
      * @throws IOException - stream's error
      * @throws ReadException - if all tokens are read
      */
     public void format(final IReader reader, final IWriter writer) throws IOException, ReadException {
+        State currentState = formatterLexerTransition.getStartState();
         ILexer lexer = lexerFactory.createLexer(reader);
 
-        boolean newSpace = false;
-        boolean newLine = false;
-
-        final int tabulationSize = 4;
-
-        int spaceCount = 0;
-
         while (lexer.hasMoreTokens()) {
-            IToken token = lexer.readToken();
-            String lexeme = token.getLexeme();
-            String tokenName = token.getName();
+            IToken token = lexer.nextToken();
 
-            if (newLine) {
-                if (lexeme.equals("}")) {
-                    spaceCount -= tabulationSize;
-                }
-                for (int i = 0; i < spaceCount; i++) {
-                    writer.write(' ');
-                }
-                newLine = false;
+            if (token.getLexeme().length() == 0) {
+                continue;
             }
 
-            if (tokenName.equals("point") || tokenName.equals("quote")) {
-                writer.write(lexeme.charAt(0));
-                newSpace = false;
-            }
+            ICommandFactory<IToken, IWriter> commandFactory = commandRepository.getCommand(currentState, token);
+            ICommand command = commandFactory.createCommand(token, writer);
+            command.execute();
 
-            if (tokenName.equals("comma")) {
-                writer.write(lexeme.charAt(0));
-                newSpace = true;
-            }
-
-            if (tokenName.equals("square bracket")) {
-                if (lexeme.equals("]")) {
-                    newSpace = true;
-                }
-                writer.write(lexeme.charAt(0));
-            }
-
-            if (tokenName.equals("round bracket")) {
-                writer.write(lexeme.charAt(0));
-                if (lexeme.equals("(")) {
-                    newSpace = false;
-                }
-            }
-
-            if (tokenName.equals("figure bracket") || tokenName.equals("semicolon")) {
-                if (lexeme.equals("{")) {
-                    if (newSpace) {
-                        writer.write(' ');
-                    }
-                    spaceCount += tabulationSize;
-                }
-                writer.write(lexeme.charAt(0)).write('\n');
-                newSpace = false;
-                newLine = true;
-            }
-
-            if (tokenName.equals("word")) {
-                if (newSpace) {
-                    writer.write(' ');
-                }
-                for (int i = 0; i < lexeme.length(); i++) {
-                    writer.write(lexeme.charAt(i));
-                }
-                newSpace = true;
-            }
+            currentState = formatterLexerTransition.getNextState(currentState, token);
         }
     }
 }

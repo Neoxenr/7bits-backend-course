@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface IFormatter {
     /**
-     *
+     * This method is formatting input stream
      * @param reader - input stream
      * @param writer - output stream
      * @throws ReadException - reading error

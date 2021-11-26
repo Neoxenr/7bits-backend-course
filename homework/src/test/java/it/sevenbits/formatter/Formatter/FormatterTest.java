@@ -43,7 +43,7 @@ public class FormatterTest {
         when(mockLexerFactory.createLexer(mockReader)).thenReturn(mockLexer);
 
         when(mockLexer.hasMoreTokens()).thenReturn(true).thenReturn(false);
-        when(mockLexer.readToken()).thenReturn(new Token("word", "aaa"));
+        when(mockLexer.nextToken()).thenReturn(new Token("WORD", "aaa"));
 
         formatter = new Formatter(mockLexerFactory);
         formatter.format(mockReader, mockWriter);
@@ -53,16 +53,44 @@ public class FormatterTest {
     }
 
     @Test
-    public void formatTest() throws ReadException, IOException {
+    public void formatDefaultTest() throws ReadException, IOException {
         StringBuilder newFormatString = new StringBuilder();
+        ILexerFactory lexerFactory = new LexerFactory();
+
+        StringReader stringReader = new StringReader("{{{{ } } }}");
+        StringWriter stringWriter = new StringWriter(newFormatString);
+
+        formatter = new Formatter(lexerFactory);
+        formatter.format(stringReader, stringWriter);
+
+        assertEquals("Wrong formatting", "{\n    {\n        {\n            {\n" +
+                "            }\n        }\n    }\n}\n", newFormatString.toString());
+    }
+
+    @Test
+    public void formatCommentTest() throws IOException, ReadException {
+        StringBuilder newFormatString = new StringBuilder();
+        ILexerFactory lexerFactory = new LexerFactory();
+
+        StringReader stringReader = new StringReader("//aaa \n aaa{bbb;}");
+        StringWriter stringWriter = new StringWriter(newFormatString);
+
+        formatter = new Formatter(lexerFactory);
+        formatter.format(stringReader, stringWriter);
+
+        assertEquals("Wrong formatting", "//aaa \n\naaa {\n    bbb;\n}\n", newFormatString.toString());
+    }
+
+    @Test
+    public void formatStringLiteralTest() throws IOException, ReadException {
+        StringBuilder newFormatString = new StringBuilder();
+        ILexerFactory lexerFactory = new LexerFactory();
 
         StringReader stringReader = new StringReader("         public    class   HelloWorld     \n\n  \n     " +
                 "{public static void main(String[] args){ System.out.println(\"Hello, World\");         } }");
         StringWriter stringWriter = new StringWriter(newFormatString);
 
-        ILexerFactory lexerFactory = new LexerFactory();
         formatter = new Formatter(lexerFactory);
-
         formatter.format(stringReader, stringWriter);
 
         assertEquals("Wrong formatting", "public class HelloWorld {\n    public static void main(String[] args) " +

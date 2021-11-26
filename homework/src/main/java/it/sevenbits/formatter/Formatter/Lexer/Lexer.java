@@ -1,122 +1,85 @@
 package it.sevenbits.formatter.Formatter.Lexer;
 
+import it.sevenbits.formatter.Formatter.Command.ICommand;
+import it.sevenbits.formatter.Formatter.CommandFactory.ICommandFactory;
+import it.sevenbits.formatter.Formatter.CommandRepository.ICommandRepository;
+import it.sevenbits.formatter.Formatter.CommandRepository.LexerCommandRepository;
 import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
 import it.sevenbits.formatter.Formatter.Reader.IReader;
+import it.sevenbits.formatter.Formatter.StateMap.State;
+import it.sevenbits.formatter.Formatter.StateTransition.IStateTransition;
+import it.sevenbits.formatter.Formatter.StateTransition.LexerStateTransition;
 import it.sevenbits.formatter.Formatter.Token.IToken;
-import it.sevenbits.formatter.Formatter.Token.Token;
+import it.sevenbits.formatter.Formatter.TokenBuilder.ITokenBuilder;
+import it.sevenbits.formatter.Formatter.TokenBuilder.TokenBuilder;
 
 import java.io.IOException;
 
 public class Lexer implements ILexer {
+    private final IStateTransition<Character> lexerStateTransition;
+    private final ICommandRepository<Character, ITokenBuilder> commandRepository;
     private final IReader reader;
-
     private char specialSymbol;
 
     /**
-     *
+     * Initializing all fields
      * @param reader - input stream
      */
     public Lexer(final IReader reader) {
+        this.lexerStateTransition = new LexerStateTransition();
+        this.commandRepository = new LexerCommandRepository();
         this.reader = reader;
         this.specialSymbol = '\0';
     }
 
     /**
-     *
-     * @return IToken - token with name and lexeme
-     * @throws ReadException - if all tokens are read
+     * This method is returning tokens
+     * @return IToken
      * @throws IOException - stream's error
+     * @throws ReadException - reading error
      */
-    public IToken readToken() throws ReadException, IOException {
+    public IToken nextToken() throws IOException, ReadException {
+        ITokenBuilder tokenBuilder = new TokenBuilder();
+
+        State currentState = lexerStateTransition.getStartState();
+
         if (hasMoreTokens()) {
-            StringBuilder lexeme = new StringBuilder();
-            while (reader.hasNext()) {
+            while (reader.hasNext() && !currentState.toString().contains("FINISH")) {
                 char symbol;
-                if (specialSymbol != '\0') {
+
+                if (specialSymbol == '\0') {
+                    symbol = reader.read();
+                } else {
                     symbol = specialSymbol;
                     specialSymbol = '\0';
-                } else {
-                    symbol = reader.read();
                 }
-                if (symbol != '\n' && symbol != '\r') {
-                    if (symbol != ' ') {
-                        lexeme.append(symbol);
-                        if (symbol == '{' || symbol == '}') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("figure bracket", lexeme.toString());
-                            }
-                        }
-                        if (symbol == '(' || symbol == ')') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("round bracket", lexeme.toString());
-                            }
-                        }
-                        if (symbol == '[' || symbol == ']') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("square bracket", lexeme.toString());
-                            }
-                        }
-                        if (symbol == ';') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("semicolon", lexeme.toString());
-                            }
-                        }
-                        if (symbol == '.') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("point", lexeme.toString());
-                            }
-                        }
-                        if (symbol == ',') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("comma", lexeme.toString());
-                            }
-                        }
-                        if (symbol == '\"') {
-                            if (lexeme.length() > 1) {
-                                specialSymbol = symbol;
-                                return new Token("word", lexeme.substring(0, lexeme.length() - 1));
-                            }
-                            if (lexeme.length() == 1) {
-                                return new Token("quote", lexeme.toString());
-                            }
-                        }
-                    } else {
-                        if (lexeme.length() > 0) {
-                            return new Token("word", lexeme.toString());
-                        }
-                    }
+
+                int currentLexemeSize = tokenBuilder.lexemeSize();
+
+                ICommandFactory<Character, ITokenBuilder> commandFactory = commandRepository.getCommand(currentState, symbol);
+                ICommand command = commandFactory.createCommand(symbol, tokenBuilder);
+                command.execute();
+
+                if (currentLexemeSize == tokenBuilder.lexemeSize() && tokenBuilder.lexemeSize() > 0) {
+                    specialSymbol = symbol;
+                    symbol = ' ';
                 }
+
+                currentState = lexerStateTransition.getNextState(currentState, symbol);
+                tokenBuilder.setTokenName(currentState.toString());
             }
+            if (currentState.toString().contains("_FINISH")) {
+                tokenBuilder.setTokenName(currentState.toString().substring(0, currentState.toString().indexOf("_FINISH")));
+            }
+        } else {
+            throw new ReadException("Error of token reading");
         }
-        throw new ReadException("Error of token's reading");
+
+        return tokenBuilder.createToken();
     }
 
     /**
-     *
+     * This method is returning true if all tokens hasn't read yet
      * @return boolean - if all tokens hasn't read
      * @throws IOException - stream's error
      */

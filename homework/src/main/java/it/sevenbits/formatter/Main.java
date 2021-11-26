@@ -1,11 +1,11 @@
 package it.sevenbits.formatter;
 
-import it.sevenbits.formatter.Formatter.Reader.FileReader;
-import it.sevenbits.formatter.Formatter.Writer.FileWriter;
 import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
 import it.sevenbits.formatter.Formatter.Formatter;
 import it.sevenbits.formatter.Formatter.LexerFactory.ILexerFactory;
 import it.sevenbits.formatter.Formatter.LexerFactory.LexerFactory;
+import it.sevenbits.formatter.Formatter.Reader.FileReader;
+import it.sevenbits.formatter.Formatter.Writer.FileWriter;
 
 /**
  * Main application entry point

@@ -5,7 +5,7 @@ import it.sevenbits.formatter.Formatter.Reader.IReader;
 
 public interface ILexerFactory {
     /**
-     *
+     * This method creates Lexer
      * @param reader - input stream
      * @return ILexer - lexer for lexical analyze
      */
