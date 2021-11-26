@@ -1,6 +1,4 @@
-package it.sevenbits.formatter.Formatter.implementations;
-
-import it.sevenbits.formatter.Formatter.interfaces.IWriter;
+package it.sevenbits.formatter.Formatter.Writer;
 
 /**
  * IWriter's implementation
@@ -18,8 +16,8 @@ public class StringWriter implements IWriter {
 
     /**
      *
-     * @param symbol - symbor for writing in thread
-     * @return IWriter - current thread
+     * @param symbol - symbol for writing in thread
+     * @return IWriter - output stream
      */
     public IWriter write(final char symbol) {
         string.append(symbol);

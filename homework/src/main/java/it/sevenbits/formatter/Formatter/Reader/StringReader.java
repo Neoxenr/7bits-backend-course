@@ -1,14 +1,12 @@
-package it.sevenbits.formatter.Formatter.implementations;
+package it.sevenbits.formatter.Formatter.Reader;
 
-import it.sevenbits.formatter.Formatter.exceptions.ReadException;
-import it.sevenbits.formatter.Formatter.interfaces.IReader;
+import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
 
 /**
  * IReader's implementation
  */
 public class StringReader implements IReader {
     private final String string;
-
     private int stringCounter = 0;
 
     /**
@@ -21,7 +19,7 @@ public class StringReader implements IReader {
 
     /**
      *
-     * @return boolean - true if string hasn't finished yet else false
+     * @return boolean - if reading a stream hasn't ended yet
      */
     public boolean hasNext() {
         return stringCounter < string.length();
@@ -29,12 +27,12 @@ public class StringReader implements IReader {
 
     /**
      *
-     * @return char - symbol from string
-     * @throws ReadException - if nothing to read
+     * @return char - symbol from stream
+     * @throws ReadException - if all symbols are read
      */
     public char read() throws ReadException {
         if (!hasNext()) {
-            throw new ReadException("Error of reading");
+            throw new ReadException("Error of string's reading");
         }
         return string.charAt(stringCounter++);
     }

@@ -1,66 +1,71 @@
 package it.sevenbits.formatter.Formatter;
-import it.sevenbits.formatter.Formatter.exceptions.ReadException;
-import it.sevenbits.formatter.Formatter.implementations.StringReader;
-import it.sevenbits.formatter.Formatter.implementations.StringWriter;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
+import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
+import it.sevenbits.formatter.Formatter.Lexer.ILexer;
+import it.sevenbits.formatter.Formatter.LexerFactory.ILexerFactory;
+import it.sevenbits.formatter.Formatter.LexerFactory.LexerFactory;
+import it.sevenbits.formatter.Formatter.Reader.IReader;
+import it.sevenbits.formatter.Formatter.Reader.StringReader;
+import it.sevenbits.formatter.Formatter.Token.Token;
+import it.sevenbits.formatter.Formatter.Writer.IWriter;
+import it.sevenbits.formatter.Formatter.Writer.StringWriter;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class FormatterTest {
-    private Formatter formatter;
+    private IFormatter formatter;
 
-    @Before
-    public void setUp() {
-        this.formatter = new Formatter();
+    @Test
+    public void mockCreateLexerTest() throws IOException, ReadException {
+        IReader mockReader = mock(IReader.class);
+        IWriter mockWriter = mock(IWriter.class);
+        ILexerFactory mockLexerFactory = mock(ILexerFactory.class);
+
+        when(mockLexerFactory.createLexer(mockReader)).thenReturn(mock(ILexer.class));
+
+        formatter = new Formatter(mockLexerFactory);
+        formatter.format(mockReader, mockWriter);
+
+        verify(mockLexerFactory, times(1)).createLexer(any(IReader.class));
     }
 
     @Test
-    public void testFormatFirst() throws ReadException {
-        StringBuilder newFormatString = new StringBuilder();
+    public void mockFormatTest() throws IOException, ReadException {
+        IReader mockReader = mock(IReader.class);
+        IWriter mockWriter = mock(IWriter.class);
+        ILexerFactory mockLexerFactory = mock(ILexerFactory.class);
 
-        StringReader stringReader = new StringReader("{{{{ } } } }");
-        StringWriter stringWriter = new StringWriter(newFormatString);
+        ILexer mockLexer = mock(ILexer.class);
+        when(mockLexerFactory.createLexer(mockReader)).thenReturn(mockLexer);
 
-        formatter.format(stringReader, stringWriter);
+        when(mockLexer.hasMoreTokens()).thenReturn(true).thenReturn(false);
+        when(mockLexer.readToken()).thenReturn(new Token("word", "aaa"));
 
-        assertEquals("Wrong formatting", "{\n    {\n        {\n            " +
-                "{\n            }\n        }\n    }\n}\n", newFormatString.toString());
+        formatter = new Formatter(mockLexerFactory);
+        formatter.format(mockReader, mockWriter);
+
+        verify(mockLexer, times(2)).hasMoreTokens();
+        verify(mockWriter, times(3)).write(anyChar());
     }
 
     @Test
-    public void testFormatSecond() throws ReadException {
+    public void formatTest() throws ReadException, IOException {
         StringBuilder newFormatString = new StringBuilder();
 
         StringReader stringReader = new StringReader("         public    class   HelloWorld     \n\n  \n     " +
                 "{public static void main(String[] args){ System.out.println(\"Hello, World\");         } }");
         StringWriter stringWriter = new StringWriter(newFormatString);
 
+        ILexerFactory lexerFactory = new LexerFactory();
+        formatter = new Formatter(lexerFactory);
+
         formatter.format(stringReader, stringWriter);
 
         assertEquals("Wrong formatting", "public class HelloWorld {\n    public static void main(String[] args) " +
                 "{\n        System.out.println(\"Hello, World\");\n    }\n}\n", newFormatString.toString());
-    }
-
-    @Test
-    public void testFormatThird() throws ReadException {
-        StringBuilder newFormatString = new StringBuilder();
-
-        StringReader stringReader = new StringReader("aaa{bbbb;fff { trtryy; hhhh;}else{ bsufg; }ccc;}");
-        StringWriter stringWriter = new StringWriter(newFormatString);
-
-        formatter.format(stringReader, stringWriter);
-
-        assertEquals("Wrong formatting", "aaa {\n    bbbb;\n    fff {\n        " +
-                "trtryy;\n        hhhh;\n    }\n    else {\n        bsufg;\n    }\n    ccc;\n}\n", newFormatString.toString());
-    }
-
-    @Test(expected = ReadException.class)
-    public void testThrowingReadException() throws ReadException {
-        StringReader stringReader = new StringReader("Hello, World!");
-        while (stringReader.hasNext()) {
-            char symbol = stringReader.read();
-        }
-        stringReader.read();
     }
 }
