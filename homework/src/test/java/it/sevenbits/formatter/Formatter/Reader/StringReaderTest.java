@@ -1,7 +1,6 @@
 package it.sevenbits.formatter.Formatter.Reader;
 
 import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
-import it.sevenbits.formatter.Formatter.Reader.StringReader;
 import org.junit.Test;
 
 public class StringReaderTest {

@@ -7,6 +7,7 @@ public class StringWriter implements IWriter {
     private final StringBuilder string;
 
     /**
+     * Initializing all fields
      *
      * @param string - string for writing
      */
@@ -15,6 +16,7 @@ public class StringWriter implements IWriter {
     }
 
     /**
+     * This method writes symbol in output stream
      *
      * @param symbol - symbol for writing in thread
      * @return IWriter - output stream

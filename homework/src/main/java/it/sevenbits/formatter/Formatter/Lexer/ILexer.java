@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public interface ILexer {
     /**
+     * This method is returning true if all tokens hasn't read yet
      *
      * @return boolean - true if all tokens hasn't read
      * @throws IOException - stream's error
@@ -14,10 +15,11 @@ public interface ILexer {
     boolean hasMoreTokens() throws IOException;
 
     /**
+     * This method is returning next token
      *
      * @return IToken - token
      * @throws ReadException - reading error
-     * @throws IOException - stream's error
+     * @throws IOException   - stream's error
      */
-    IToken readToken() throws ReadException, IOException;
+    IToken nextToken() throws ReadException, IOException;
 }

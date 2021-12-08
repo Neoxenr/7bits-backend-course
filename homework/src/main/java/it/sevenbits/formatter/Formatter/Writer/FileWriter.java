@@ -1,6 +1,5 @@
 package it.sevenbits.formatter.Formatter.Writer;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,15 +11,17 @@ public class FileWriter implements IWriter, AutoCloseable {
     private final Writer fileWriter;
 
     /**
+     * Initializing all fields
      *
      * @param path - file path
      * @throws FileNotFoundException - if file isn't founded
      */
     public FileWriter(final String path) throws FileNotFoundException {
-        fileWriter =  new OutputStreamWriter(new FileOutputStream(new File(path)), StandardCharsets.UTF_8);
+        fileWriter = new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8);
     }
 
     /**
+     * This method writes symbol in output stream
      *
      * @param symbol - symbol for writing in thread
      * @return IWriter - output stream
@@ -32,6 +33,7 @@ public class FileWriter implements IWriter, AutoCloseable {
     }
 
     /**
+     * This method closes output stream
      *
      * @throws Exception - stream's error
      */

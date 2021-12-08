@@ -7,9 +7,11 @@ import it.sevenbits.formatter.Formatter.Exceptions.ReadException;
  */
 public class StringReader implements IReader {
     private final String string;
-    private int stringCounter = 0;
+
+    private int symbolCounter = 0;
 
     /**
+     * Initializing fields
      *
      * @param string - string for reading
      */
@@ -18,14 +20,16 @@ public class StringReader implements IReader {
     }
 
     /**
+     * This method is returning true if reading stream hasn't ended yet
      *
      * @return boolean - if reading a stream hasn't ended yet
      */
     public boolean hasNext() {
-        return stringCounter < string.length();
+        return symbolCounter < string.length();
     }
 
     /**
+     * This method is reading symbol from input stream
      *
      * @return char - symbol from stream
      * @throws ReadException - if all symbols are read
@@ -34,6 +38,6 @@ public class StringReader implements IReader {
         if (!hasNext()) {
             throw new ReadException("Error of string's reading");
         }
-        return string.charAt(stringCounter++);
+        return string.charAt(symbolCounter++);
     }
 }
