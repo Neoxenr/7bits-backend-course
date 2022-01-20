@@ -11,8 +11,9 @@ public class Enemy implements IEntity {
 
     /**
      * Enemy initializing
-     * @param x - enemy position at x axis
-     * @param y - enemy position at y axis
+     *
+     * @param x      - enemy position at x axis
+     * @param y      - enemy position at y axis
      * @param health - enemy health
      */
     public Enemy(final int x, final int y, final int health) {
@@ -24,6 +25,7 @@ public class Enemy implements IEntity {
 
     /**
      * Setting new enemy position at x axis
+     *
      * @param x - new entities position at x axis
      */
     public void setX(final int x) {
@@ -32,6 +34,7 @@ public class Enemy implements IEntity {
 
     /**
      * Getting enemy position at x axis
+     *
      * @return int - enemy position at x axis
      */
     public int getX() {
@@ -40,6 +43,7 @@ public class Enemy implements IEntity {
 
     /**
      * Setting new enemy position at y axis
+     *
      * @param y - new entities position at y axis
      */
     public void setY(final int y) {
@@ -48,6 +52,7 @@ public class Enemy implements IEntity {
 
     /**
      * Getting enemy position at y axis
+     *
      * @return int - enemy position at y axis
      */
     public int getY() {
@@ -56,6 +61,7 @@ public class Enemy implements IEntity {
 
     /**
      * Setting enemy health
+     *
      * @param health - enemy health
      */
     public void setHealth(final int health) {
@@ -64,6 +70,7 @@ public class Enemy implements IEntity {
 
     /**
      * Getting enemy health
+     *
      * @return int - enemy health
      */
     public int getHealth() {
@@ -72,6 +79,7 @@ public class Enemy implements IEntity {
 
     /**
      * Setting new enemy alive value
+     *
      * @param flag - new enemy alive value
      */
     public void setAlive(final boolean flag) {
@@ -80,6 +88,7 @@ public class Enemy implements IEntity {
 
     /**
      * Getting enemy alive value
+     *
      * @return boolean - enemy alive value
      */
     public boolean isAlive() {
