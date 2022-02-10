@@ -41,11 +41,7 @@ public class LexerTest {
     public void readTokenReadExceptionTest() throws IOException, ReadException, InvocationTargetException, InstantiationException, IllegalAccessException {
         StringReader stringReader = new StringReader("aaa{bb;}");
         ILexer lexer = new Lexer(stringReader);
-<<<<<<< HEAD
         while (lexer.hasMoreTokens()) {
-=======
-        while(lexer.hasMoreTokens()) {
->>>>>>> master
             lexer.nextToken();
         }
         lexer.nextToken();
