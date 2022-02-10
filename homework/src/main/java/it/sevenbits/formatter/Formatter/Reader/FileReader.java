@@ -14,7 +14,7 @@ public class FileReader implements IReader, AutoCloseable {
     private final Reader fileReader;
 
     /**
-     *
+     * Initializing fields
      * @param path - file path
      * @throws FileNotFoundException - if file isn't founded
      */
@@ -24,7 +24,7 @@ public class FileReader implements IReader, AutoCloseable {
 
 
     /**
-     *
+     * This method is reading symbol from input stream
      * @return char - symbol from stream
      * @throws ReadException - if all symbols are read
      * @throws IOException - stream's exception
@@ -37,8 +37,8 @@ public class FileReader implements IReader, AutoCloseable {
     }
 
     /**
-     *
-     * @return boolean - if reading a stream hasn't ended yet
+     * This method is returning true if reading stream hasn't ended yet
+     * @return boolean - if reading stream hasn't ended yet
      * @throws IOException - stream's error
      */
     public boolean hasNext() throws IOException {

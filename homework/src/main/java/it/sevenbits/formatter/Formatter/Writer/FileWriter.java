@@ -12,7 +12,7 @@ public class FileWriter implements IWriter, AutoCloseable {
     private final Writer fileWriter;
 
     /**
-     *
+     * Initializing all fields
      * @param path - file path
      * @throws FileNotFoundException - if file isn't founded
      */
@@ -21,7 +21,7 @@ public class FileWriter implements IWriter, AutoCloseable {
     }
 
     /**
-     *
+     * This method writes symbol in output stream
      * @param symbol - symbol for writing in thread
      * @return IWriter - output stream
      * @throws IOException - stream's error
@@ -32,7 +32,7 @@ public class FileWriter implements IWriter, AutoCloseable {
     }
 
     /**
-     *
+     * This method closes output stream
      * @throws Exception - stream's error
      */
     public void close() throws Exception {
