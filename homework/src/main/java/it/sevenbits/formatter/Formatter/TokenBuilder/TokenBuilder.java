@@ -17,6 +17,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     /**
      * This method is setting name token
+     *
      * @param tokenName - new token's name
      */
     public void setTokenName(final String tokenName) {
@@ -25,6 +26,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     /**
      * This method is adding symbol in stream
+     *
      * @param signal - input signal
      */
     public void addSymbol(final char signal) {
@@ -33,6 +35,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     /**
      * This method creates new token
+     *
      * @return IToken
      */
     public IToken createToken() {
@@ -41,6 +44,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     /**
      * This method returns current lexeme's size
+     *
      * @return int
      */
     public int lexemeSize() {

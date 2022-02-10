@@ -9,10 +9,12 @@ public class IgnoreCommand implements ICommand {
 
     /**
      * Command which is ignoring all input parameters and logging info about them
-     * @param character - any symbol
+     *
+     * @param character    - any symbol
      * @param tokenBuilder - input stream
      */
-    public IgnoreCommand(final Character character, final ITokenBuilder tokenBuilder) { }
+    public IgnoreCommand(final Character character, final ITokenBuilder tokenBuilder) {
+    }
 
     /**
      * This method is logging info about he has been called

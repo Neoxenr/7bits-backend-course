@@ -13,7 +13,8 @@ public class IndentMacroCommand implements ICommand {
 
     /**
      * Command which is adding indent before symbols and writing symbols in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public IndentMacroCommand(final IToken token, final IWriter writer) {
@@ -25,6 +26,7 @@ public class IndentMacroCommand implements ICommand {
 
     /**
      * This method executes two commands
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

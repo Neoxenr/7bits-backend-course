@@ -15,7 +15,8 @@ public class IndentSpaceMacroCommand implements ICommand {
 
     /**
      * Command which is adding indent, switching to a new line, space and writing symbols in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public IndentSpaceMacroCommand(final IToken token, final IWriter writer) {
@@ -29,6 +30,7 @@ public class IndentSpaceMacroCommand implements ICommand {
 
     /**
      * This method executes four commands
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

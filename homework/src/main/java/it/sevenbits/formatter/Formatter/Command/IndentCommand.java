@@ -13,7 +13,8 @@ public class IndentCommand implements ICommand {
 
     /**
      * Command which is adding indent before symbols
-     * @param token - input token
+     *
+     * @param token  - input token
      * @param writer - input stream
      */
     public IndentCommand(final IToken token, final IWriter writer) {
@@ -23,6 +24,7 @@ public class IndentCommand implements ICommand {
 
     /**
      * This method interacts and regulates indent
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

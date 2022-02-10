@@ -7,6 +7,7 @@ public class State {
 
     /**
      * Constructor
+     *
      * @param name - state name
      */
     public State(final String name) {
@@ -15,6 +16,7 @@ public class State {
 
     /**
      * This method is returning state's name
+     *
      * @return String - current state name
      */
     public String toString() {
@@ -23,6 +25,7 @@ public class State {
 
     /**
      * This method compares two objects
+     *
      * @param o - object to compare
      * @return boolean - comparison result
      */
@@ -39,6 +42,7 @@ public class State {
 
     /**
      * This method is returning hash code
+     *
      * @return int - hash code
      */
     public int hashCode() {

@@ -5,7 +5,6 @@ package it.sevenbits.formatter.Formatter.Exceptions;
  */
 public class ReadException extends Exception {
     /**
-     *
      * @param message - error's message
      */
     public ReadException(final String message) {

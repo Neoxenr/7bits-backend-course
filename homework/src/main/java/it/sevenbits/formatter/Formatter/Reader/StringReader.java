@@ -12,6 +12,7 @@ public class StringReader implements IReader {
 
     /**
      * Initializing fields
+     *
      * @param string - string for reading
      */
     public StringReader(final String string) {
@@ -20,6 +21,7 @@ public class StringReader implements IReader {
 
     /**
      * This method is returning true if reading stream hasn't ended yet
+     *
      * @return boolean - if reading a stream hasn't ended yet
      */
     public boolean hasNext() {
@@ -28,6 +30,7 @@ public class StringReader implements IReader {
 
     /**
      * This method is reading symbol from input stream
+     *
      * @return char - symbol from stream
      * @throws ReadException - if all symbols are read
      */

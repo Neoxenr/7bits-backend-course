@@ -4,18 +4,21 @@ import it.sevenbits.formatter.Formatter.StateMap.FormatterStateMap;
 import it.sevenbits.formatter.Formatter.StateMap.State;
 import it.sevenbits.formatter.Formatter.Token.IToken;
 
+import java.io.IOException;
+
 public class FormatterStateTransition implements IStateTransition<IToken> {
     private final FormatterStateMap formatterStateMap;
 
     /**
      * Initializing fields
      */
-    public FormatterStateTransition() {
+    public FormatterStateTransition() throws IOException {
         formatterStateMap = new FormatterStateMap();
     }
 
     /**
      * This method is returning default state
+     *
      * @return State
      */
     public State getStartState() {
@@ -24,7 +27,8 @@ public class FormatterStateTransition implements IStateTransition<IToken> {
 
     /**
      * This method is returning next state
-     * @param state - input state
+     *
+     * @param state  - input state
      * @param signal - input signal
      * @return State
      */

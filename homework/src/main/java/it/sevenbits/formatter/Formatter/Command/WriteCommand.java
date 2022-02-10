@@ -11,7 +11,8 @@ public class WriteCommand implements ICommand {
 
     /**
      * Command which is adding symbols in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public WriteCommand(final IToken token, final IWriter writer) {
@@ -21,6 +22,7 @@ public class WriteCommand implements ICommand {
 
     /**
      * This method is adding symbol in output stream
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

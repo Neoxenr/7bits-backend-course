@@ -8,7 +8,8 @@ public class Token implements IToken {
 
     /**
      * Initializing all fields
-     * @param name - token name
+     *
+     * @param name   - token name
      * @param lexeme - lexeme
      */
     public Token(final String name, final String lexeme) {
@@ -18,6 +19,7 @@ public class Token implements IToken {
 
     /**
      * This method is returning token's name
+     *
      * @return String - token's name
      */
     public String getName() {
@@ -26,6 +28,7 @@ public class Token implements IToken {
 
     /**
      * This method is returning lexeme
+     *
      * @return String - lexeme
      */
     public String getLexeme() {

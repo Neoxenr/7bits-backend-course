@@ -26,9 +26,10 @@ public class Formatter implements IFormatter {
 
     /**
      * Initializing all fields
+     *
      * @param lexerFactory - factory for ILexer products
      */
-    public Formatter(final ILexerFactory lexerFactory) {
+    public Formatter(final ILexerFactory lexerFactory) throws IOException {
         this.formatterLexerTransition = new FormatterStateTransition();
         this.commandRepository = new FormatterCommandRepository();
         this.lexerFactory = lexerFactory;
@@ -36,9 +37,10 @@ public class Formatter implements IFormatter {
 
     /**
      * This method is formatting input stream
+     *
      * @param reader - input stream
      * @param writer - output stream
-     * @throws IOException - stream's error
+     * @throws IOException   - stream's error
      * @throws ReadException - if all tokens are read
      */
     public void format(final IReader reader, final IWriter writer) throws IOException, ReadException {

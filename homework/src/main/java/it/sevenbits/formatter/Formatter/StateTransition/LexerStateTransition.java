@@ -3,18 +3,21 @@ package it.sevenbits.formatter.Formatter.StateTransition;
 import it.sevenbits.formatter.Formatter.StateMap.LexerStateMap;
 import it.sevenbits.formatter.Formatter.StateMap.State;
 
+import java.io.IOException;
+
 public class LexerStateTransition implements IStateTransition<Character> {
     private final LexerStateMap lexerStateMap;
 
     /**
      * Initializing fields
      */
-    public LexerStateTransition() {
+    public LexerStateTransition() throws IOException {
         lexerStateMap = new LexerStateMap();
     }
 
     /**
      * This method is returning default state
+     *
      * @return State
      */
     public State getStartState() {
@@ -23,7 +26,8 @@ public class LexerStateTransition implements IStateTransition<Character> {
 
     /**
      * This method is returning next state
-     * @param state - input state
+     *
+     * @param state  - input state
      * @param signal - input signal
      * @return State
      */

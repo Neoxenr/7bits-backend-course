@@ -10,12 +10,14 @@ import java.io.IOException;
 public interface IReader {
     /**
      * This method is returning true if reading stream hasn't ended yet
+     *
      * @return boolean - if thread hasn't finished yet else false
      */
     boolean hasNext() throws IOException;
 
     /**
      * This method is reading symbol from input stream
+     *
      * @return char - symbol from thread
      * @throws ReadException - if nothing to read
      */

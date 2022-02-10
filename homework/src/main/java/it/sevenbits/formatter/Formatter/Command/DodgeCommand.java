@@ -8,7 +8,8 @@ public class DodgeCommand implements ICommand {
 
     /**
      * Command which is adding symbol if input stream is empty
-     * @param character - adding symbol
+     *
+     * @param character    - adding symbol
      * @param tokenBuilder - input stream
      */
     public DodgeCommand(final Character character, final ITokenBuilder tokenBuilder) {

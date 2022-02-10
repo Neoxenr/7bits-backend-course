@@ -11,7 +11,8 @@ public class SpaceCommand implements ICommand {
 
     /**
      * Command which is adding space in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public SpaceCommand(final IToken token, final IWriter writer) {
@@ -21,6 +22,7 @@ public class SpaceCommand implements ICommand {
 
     /**
      * This method adding space in output stream
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

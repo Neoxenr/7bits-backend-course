@@ -5,7 +5,7 @@ import it.sevenbits.formatter.Formatter.Writer.IWriter;
 
 import java.io.IOException;
 
-public class NewlineMacroCommand implements ICommand  {
+public class NewlineMacroCommand implements ICommand {
     private final IToken token;
     private final IWriter writer;
     private final WriteCommand writeCommand;
@@ -13,7 +13,8 @@ public class NewlineMacroCommand implements ICommand  {
 
     /**
      * Command which is adding switching to a new line and writing symbols in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public NewlineMacroCommand(final IToken token, final IWriter writer) {
@@ -25,6 +26,7 @@ public class NewlineMacroCommand implements ICommand  {
 
     /**
      * This method executes two commands
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

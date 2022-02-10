@@ -13,6 +13,7 @@ import it.sevenbits.formatter.Formatter.Writer.FileWriter;
 final class Main {
     /**
      * Main function for app
+     *
      * @param args - console arguments
      * @throws ReadException - reading exception
      */
@@ -28,5 +29,7 @@ final class Main {
             }
         }
     }
-    private Main() {}
+
+    private Main() {
+    }
 }

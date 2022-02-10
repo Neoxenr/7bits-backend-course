@@ -7,7 +7,8 @@ import it.sevenbits.formatter.Formatter.TokenBuilder.ITokenBuilder;
 public class AddCommandFactory implements ICommandFactory<Character, ITokenBuilder> {
     /**
      * This method creates AddCommand
-     * @param character - input symbol
+     *
+     * @param character    - input symbol
      * @param tokenBuilder - input stream
      * @return AddCommand
      */

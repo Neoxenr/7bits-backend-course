@@ -11,7 +11,8 @@ public class NewlineCommand implements ICommand {
 
     /**
      * Command which is adding switching to a new line in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public NewlineCommand(final IToken token, final IWriter writer) {
@@ -21,6 +22,7 @@ public class NewlineCommand implements ICommand {
 
     /**
      * This method adding switching to a new line in output stream
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

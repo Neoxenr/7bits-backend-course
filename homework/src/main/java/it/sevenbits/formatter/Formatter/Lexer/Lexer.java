@@ -16,16 +16,17 @@ import it.sevenbits.formatter.Formatter.TokenBuilder.TokenBuilder;
 import java.io.IOException;
 
 public class Lexer implements ILexer {
-    private final IStateTransition<Character> lexerStateTransition;
-    private final ICommandRepository<Character, ITokenBuilder> commandRepository;
+    private final IStateTransition<java.lang.Character> lexerStateTransition;
+    private final ICommandRepository<java.lang.Character, ITokenBuilder> commandRepository;
     private final IReader reader;
     private char specialSymbol;
 
     /**
      * Initializing all fields
+     *
      * @param reader - input stream
      */
-    public Lexer(final IReader reader) {
+    public Lexer(final IReader reader) throws IOException {
         this.lexerStateTransition = new LexerStateTransition();
         this.commandRepository = new LexerCommandRepository();
         this.reader = reader;
@@ -34,8 +35,9 @@ public class Lexer implements ILexer {
 
     /**
      * This method is returning tokens
+     *
      * @return IToken
-     * @throws IOException - stream's error
+     * @throws IOException   - stream's error
      * @throws ReadException - reading error
      */
     public IToken nextToken() throws IOException, ReadException {
@@ -72,7 +74,7 @@ public class Lexer implements ILexer {
                 tokenBuilder.setTokenName(currentState.toString().substring(0, currentState.toString().indexOf("_FINISH")));
             }
         } else {
-            throw new ReadException("Error of token reading");
+            throw new ReadException("Token's reading error");
         }
 
         return tokenBuilder.createToken();
@@ -80,6 +82,7 @@ public class Lexer implements ILexer {
 
     /**
      * This method is returning true if all tokens hasn't read yet
+     *
      * @return boolean - if all tokens hasn't read
      * @throws IOException - stream's error
      */

@@ -15,7 +15,8 @@ public class FileReader implements IReader, AutoCloseable {
 
     /**
      * Initializing fields
-     * @param path - file path
+     *
+     * @param path - file's path
      * @throws FileNotFoundException - if file isn't founded
      */
     public FileReader(final String path) throws FileNotFoundException {
@@ -24,10 +25,11 @@ public class FileReader implements IReader, AutoCloseable {
 
 
     /**
-     * This method is reading symbol from input stream
+     * This method reads symbol from input stream
+     *
      * @return char - symbol from stream
      * @throws ReadException - if all symbols are read
-     * @throws IOException - stream's exception
+     * @throws IOException   - stream's exception
      */
     public char read() throws ReadException, IOException {
         if (!hasNext()) {
@@ -37,7 +39,8 @@ public class FileReader implements IReader, AutoCloseable {
     }
 
     /**
-     * This method is returning true if reading stream hasn't ended yet
+     * This method returns true if reading stream hasn't ended yet
+     *
      * @return boolean - if reading stream hasn't ended yet
      * @throws IOException - stream's error
      */
@@ -46,7 +49,6 @@ public class FileReader implements IReader, AutoCloseable {
     }
 
     /**
-     *
      * @throws IOException - stream's error
      */
     public void close() throws IOException {

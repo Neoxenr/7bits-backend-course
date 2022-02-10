@@ -8,7 +8,8 @@ public class Pair<U, T> {
 
     /**
      * Initializing all fields
-     * @param first - pair's first value
+     *
+     * @param first  - pair's first value
      * @param second - pair's second value
      */
     public Pair(final U first, final T second) {
@@ -18,6 +19,7 @@ public class Pair<U, T> {
 
     /**
      * This method compares two objects
+     *
      * @param o - object to compare
      * @return boolean - comparison result
      */
@@ -34,6 +36,7 @@ public class Pair<U, T> {
 
     /**
      * This method calculates hash code
+     *
      * @return int - hash code
      */
     public int hashCode() {

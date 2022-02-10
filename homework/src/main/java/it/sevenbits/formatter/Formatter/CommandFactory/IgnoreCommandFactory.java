@@ -7,7 +7,8 @@ import it.sevenbits.formatter.Formatter.TokenBuilder.ITokenBuilder;
 public class IgnoreCommandFactory implements ICommandFactory<Character, ITokenBuilder> {
     /**
      * This method creates IgnoreCommand
-     * @param character - input symbol
+     *
+     * @param character    - input symbol
      * @param tokenBuilder - input stream
      * @return IgnoreCommand
      */

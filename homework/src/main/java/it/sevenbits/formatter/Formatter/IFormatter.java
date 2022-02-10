@@ -9,10 +9,11 @@ import java.io.IOException;
 public interface IFormatter {
     /**
      * This method is formatting input stream
+     *
      * @param reader - input stream
      * @param writer - output stream
      * @throws ReadException - reading error
-     * @throws IOException - stream's error
+     * @throws IOException   - stream's error
      */
     void format(IReader reader, IWriter writer) throws ReadException, IOException;
 }

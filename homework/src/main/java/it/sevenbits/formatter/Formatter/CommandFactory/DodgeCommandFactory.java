@@ -7,7 +7,8 @@ import it.sevenbits.formatter.Formatter.TokenBuilder.ITokenBuilder;
 public class DodgeCommandFactory implements ICommandFactory<Character, ITokenBuilder> {
     /**
      * This method creates DodgeCommand
-     * @param character - input symbol
+     *
+     * @param character    - input symbol
      * @param tokenBuilder - input strem
      * @return DodgeCommand
      */

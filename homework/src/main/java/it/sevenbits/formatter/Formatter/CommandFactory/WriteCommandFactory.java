@@ -8,7 +8,8 @@ import it.sevenbits.formatter.Formatter.Writer.IWriter;
 public class WriteCommandFactory implements ICommandFactory<IToken, IWriter> {
     /**
      * This method creates WriteCommand
-     * @param token - input token
+     *
+     * @param token  - input token
      * @param writer - output stream
      * @return WriteCommand
      */

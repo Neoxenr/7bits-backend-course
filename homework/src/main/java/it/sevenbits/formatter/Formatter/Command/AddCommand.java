@@ -8,7 +8,8 @@ public class AddCommand implements ICommand {
 
     /**
      * Command which is adding symbol in input stream (ITokenBuilder)
-     * @param character - adding symbol
+     *
+     * @param character    - adding symbol
      * @param tokenBuilder - input stream
      */
     public AddCommand(final Character character, final ITokenBuilder tokenBuilder) {

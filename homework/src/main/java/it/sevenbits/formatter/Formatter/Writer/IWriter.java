@@ -8,6 +8,7 @@ import java.io.IOException;
 public interface IWriter {
     /**
      * This method writes symbol in output stream
+     *
      * @param symbol - symbol for writing in thread
      * @return IWriter - current thread
      */

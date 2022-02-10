@@ -14,7 +14,8 @@ public class IndentNewlineMacroCommand implements ICommand {
 
     /**
      * Command which is adding indent, switching to a new line and writing symbols in output stream
-     * @param token - token
+     *
+     * @param token  - token
      * @param writer - output stream
      */
     public IndentNewlineMacroCommand(final IToken token, final IWriter writer) {
@@ -27,6 +28,7 @@ public class IndentNewlineMacroCommand implements ICommand {
 
     /**
      * This method executes three commands
+     *
      * @throws IOException - stream's error
      */
     public void execute() throws IOException {

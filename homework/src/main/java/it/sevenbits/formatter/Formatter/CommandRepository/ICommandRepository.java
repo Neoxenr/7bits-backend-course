@@ -6,7 +6,8 @@ import it.sevenbits.formatter.Formatter.StateMap.State;
 public interface ICommandRepository<Signal, Stream> {
     /**
      * This method returning commands factory for concrete state and signal
-     * @param state - input state
+     *
+     * @param state  - input state
      * @param signal - input signal
      * @return ICommandFactory
      */

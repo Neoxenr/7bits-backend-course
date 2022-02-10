@@ -5,13 +5,15 @@ import it.sevenbits.formatter.Formatter.StateMap.State;
 public interface IStateTransition<Signal> {
     /**
      * This method is returning default state
+     *
      * @return State
      */
     State getStartState();
 
     /**
      * This method is returning next state
-     * @param state - input state
+     *
+     * @param state  - input state
      * @param signal - input signal
      * @return State
      */

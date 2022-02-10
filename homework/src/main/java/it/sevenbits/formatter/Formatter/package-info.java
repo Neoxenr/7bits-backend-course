@@ -1,7 +1,7 @@
 /**
  * This package is basic for this project.
  * Formatter intends for formatting Java source code, which can be specified in any character stream
- *
+ * <p>
  * Exceptions package intends for all custom exceptions that may occur when working with the formatter
  * Lexer package contains Lexer, which can be splits the input stream of characters into tokens
  * LexerFactory package contains LexerFactory, which can be create Lexer
