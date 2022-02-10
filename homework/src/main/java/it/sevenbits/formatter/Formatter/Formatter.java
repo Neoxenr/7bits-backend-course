@@ -37,10 +37,7 @@ public class Formatter implements IFormatter {
 
     /**
      * This method is formatting input stream
-<<<<<<< HEAD
      *
-=======
->>>>>>> master
      * @param reader - input stream
      * @param writer - output stream
      * @throws IOException   - stream's error
