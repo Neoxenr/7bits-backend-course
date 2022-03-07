@@ -9,12 +9,12 @@ import java.util.Map;
 
 /**
  * Database foods repository - implementation of foodsRepository
- *
  */
 @Repository
 public class MapFoodRepository implements IFoodRepository {
     private Map<Long, Food> foodMap;
     private final Food defaultFood = new Food(-1, "Unavailable dish", 0);
+
     /**
      * The basic constructor
      *
@@ -31,12 +31,12 @@ public class MapFoodRepository implements IFoodRepository {
     }
 
     @Override
-    public Food getFoodById(long id) {
+    public Food getFoodById(final long id) {
         return this.foodMap.getOrDefault(id, this.defaultFood);
     }
 
     @Override
-    public Food addNewFood(Food newFood) {
+    public Food addNewFood(final Food newFood) {
         foodMap.put(newFood.getFoodId(), newFood);
         return foodMap.get(newFood.getFoodId());
     }

@@ -2,14 +2,12 @@ package it.sevenbits.courses.testing.practice.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Model for a order 
- *
+ * Model for a order
  */
 public class Order {
     private long id;
@@ -19,9 +17,9 @@ public class Order {
     /**
      * The basic constructor
      *
-     * @param id - unique identifier from Database
+     * @param id       - unique identifier from Database
      * @param foodList - order foodList
-     * @param price - order price
+     * @param price    - order price
      */
     @JsonCreator
     public Order(

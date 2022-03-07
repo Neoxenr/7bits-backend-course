@@ -15,7 +15,7 @@ public class OrderRequestBody {
      * @param foodIdList - list of food id
      */
     @JsonCreator
-    public OrderRequestBody (
+    public OrderRequestBody(
             @JsonProperty("foodIdList") final List<Long> foodIdList
     ) {
         this.foodIdList = foodIdList;

@@ -12,12 +12,14 @@ public interface IOrderService {
 
     /**
      * This method returns all existing orders
+     *
      * @return list of orders
      */
     List<Order> getAllOrders();
 
     /**
      * Method returns the order by id
+     *
      * @param id unique identifier
      * @return instance of the order
      */
@@ -25,8 +27,9 @@ public interface IOrderService {
 
     /**
      * Method creates new order
+     *
      * @param requestBody model with required data
      * @return instance of the new order
      */
-     Order createNewOrder(OrderRequestBody requestBody);
+    Order createNewOrder(OrderRequestBody requestBody);
 }

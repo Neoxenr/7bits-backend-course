@@ -18,13 +18,14 @@ import java.util.List;
 @Service
 public class OrderService implements IOrderService {
 
-    private IOrderRepository orderRepository;
-    private IFoodService foodService;
+    private final IOrderRepository orderRepository;
+    private final IFoodService foodService;
 
     private long idCounter = 0;
 
     /**
      * The basic constructor
+     *
      * @param orderRepository - order repository
      */
     @Autowired
@@ -39,15 +40,15 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order getOrderById(long id) {
+    public Order getOrderById(final long id) {
         return orderRepository.getOrderById(id);
     }
 
     @Override
-    public Order createNewOrder(OrderRequestBody requestBody) {
+    public Order createNewOrder(final OrderRequestBody requestBody) {
         long price = 0;
         List<Food> foodList = new ArrayList<>();
-        for(long foodId: requestBody.getFoodIdList()) {
+        for (long foodId : requestBody.getFoodIdList()) {
             Food requestedFood = foodService.getFoodById(foodId);
             price += requestedFood.getPrice();
             foodList.add(requestedFood);
@@ -62,7 +63,7 @@ public class OrderService implements IOrderService {
 
     private long generateNewId() {
         long result = idCounter;
-        idCounter+=1;
+        idCounter += 1;
         return result;
     }
 }

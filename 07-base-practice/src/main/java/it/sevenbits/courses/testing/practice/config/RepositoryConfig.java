@@ -38,7 +38,7 @@ public class RepositoryConfig {
      * @return instance of the books repository
      */
     @Bean
-    public IFoodRepository foodRepository(Map foodMap) {
+    public IFoodRepository foodRepository(final Map foodMap) {
         return new MapFoodRepository(foodMap);
     }
 

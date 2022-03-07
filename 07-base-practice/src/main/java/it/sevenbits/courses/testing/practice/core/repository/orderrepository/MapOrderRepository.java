@@ -30,12 +30,12 @@ public class MapOrderRepository implements IOrderRepository {
     }
 
     @Override
-    public Order getOrderById(long id) {
+    public Order getOrderById(final long id) {
         return this.orderMap.getOrDefault(id, this.defaultOrder);
     }
 
     @Override
-    public Order addOrder(Order newOrder) {
+    public Order addOrder(final Order newOrder) {
         orderMap.put(newOrder.getOrderId(), newOrder);
         return orderMap.get(newOrder.getOrderId()); 
     }

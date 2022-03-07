@@ -2,7 +2,6 @@ package it.sevenbits.courses.testing.practice.web.service.food;
 
 import it.sevenbits.courses.testing.practice.core.model.Food;
 import it.sevenbits.courses.testing.practice.core.repository.foodrepository.IFoodRepository;
-
 import it.sevenbits.courses.testing.practice.web.model.FoodRequestBody;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,7 @@ public class FoodService implements IFoodService {
 
     /**
      * The basic constructor
+     *
      * @param foodRepository - food repository
      */
     public FoodService(final IFoodRepository foodRepository) {
@@ -33,7 +33,7 @@ public class FoodService implements IFoodService {
     }
 
     @Override
-    public Food getFoodById(long id) {
+    public Food getFoodById(final long id) {
         return foodRepository.getFoodById(id);
     }
 
@@ -46,7 +46,7 @@ public class FoodService implements IFoodService {
 
     private long generateNewId() {
         long result = idCounter;
-        idCounter+=1;
+        idCounter += 1;
         return result;
     }
 }
